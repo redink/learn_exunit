@@ -97,9 +97,25 @@ with context
 
 ## 3.4 catch_*
 
-  error/exit/throw
+  exit/throw
+
+```elixir
+  test "unit test assertions catch_*" do
+    assert catch_exit(exit 1) == 1
+    assert catch_throw(throw 1) == 1
+  end
+```
+
+[Something about error raising exceptions in EVM](https://learnyousomeerlang.com/errors-and-exceptions)
 
 ## 3.5 refute
+
+```elixir
+  test "unit test refute" do
+    refute nil
+    refute false
+  end
+```
 
 # callbacks
 

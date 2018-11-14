@@ -30,5 +30,15 @@ defmodule LearnExunitAssertionsTest do
     assert_received {:ok, _}
   end
 
+  test "unit test assertions catch_*" do
+    assert catch_exit(exit 1) == 1
+    assert catch_throw(throw 1) == 1
+  end
+
+  test "unit test refute" do
+    refute nil
+    refute false
+  end
+
   # __end_of_module__
 end

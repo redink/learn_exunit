@@ -119,8 +119,84 @@ with context
 
 # callbacks
 
+There are many usual callbacks for ExUnit:
+
+- **setup**
+- **setup_all**
+- on_exit
+- start_supervised
+- stop_supervised
+
+## 4.0 purpose
+
+Build context for test case.
+
+```elixir
+  test "unit test case with context", context do
+    IO.inspect(context, label: "The context is:")
+    assert true
+  end
+```
+
+The `context` is a map, can be used in each test case.
+
 ## 4.1 setup
+
+- Optionally receive a map with test state and metadata.
+- All `setup` callbacks are run before each test.
+- Return `keyword list`/`map`/`{:ok, keywords | map}`/`:ok`.
+
+
+```elixir
+  setup do
+    # IO.puts("Generate random number 1 in setup")
+    [random_num_1: Enum.random(1..1_000)]
+  end
+  setup :generate_random_number_2
+
+  defp generate_random_number_2(context) do
+    # IO.puts("Generate random number 2 in setup")
+    context
+    |> Map.put(:random_num_2, Enum.random(1..1_000))
+  end
+
+  test "setup case 1", %{random_num_1: random_num_1, random_num_2: random_num_2} = _context do
+    IO.puts("The random numbers in case #1 are: {#{random_num_1}, #{random_num_2}}")
+    assert true
+  end
+
+  test "setup case 2", %{random_num_1: random_num_1, random_num_2: random_num_2} = _context do
+    IO.puts("The random numbers in case #2 are: {#{random_num_1}, #{random_num_2}}")
+    assert true
+  end
+```
+
 ## 4.2 setup_all
+
+- Optionally receive a map with test state and metadata.
+- Return `keyword list`/`map`/`{:ok, keywords | map}`/`:ok`.
+- Invoked only once per module.
+
+```elixir
+  setup_all do
+    [setup_all_random_num_1: Enum.random(1..1_000)]
+  end
+
+  setup_all :generate_setup_all_random_number_2
+
+  defp generate_setup_all_random_number_2(context) do
+    context
+    |> Map.put(:setup_all_random_num_2, Enum.random(1..1_000))
+  end
+
+  test "setup_all case 1", %{setup_all_random_num_1: num_1, setup_all_random_num_2: num_2} do
+    IO.puts("The random numbers in case setup_all #1 are: {#{num_1}, #{num_2}}")
+  end
+
+  test "setup_all case 2", %{setup_all_random_num_1: num_1, setup_all_random_num_2: num_2} do
+    IO.puts("The random numbers in case setup_all #2 are: {#{num_1}, #{num_2}}")
+  end
+```
 
 # mock
 

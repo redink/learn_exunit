@@ -18,10 +18,12 @@ defmodule LearnExunitAssertionsTest do
 
   test "unit test assert_receive" do
     main_pid = self()
+
     spawn(fn ->
       Process.sleep(1_000)
       send(main_pid, {:ok, self()})
     end)
+
     assert_receive {:ok, _}, 2_000
   end
 
@@ -31,8 +33,8 @@ defmodule LearnExunitAssertionsTest do
   end
 
   test "unit test assertions catch_*" do
-    assert catch_exit(exit 1) == 1
-    assert catch_throw(throw 1) == 1
+    assert catch_exit(exit(1)) == 1
+    assert catch_throw(throw(1)) == 1
   end
 
   test "unit test refute" do

@@ -263,6 +263,18 @@ using [mock library](https://github.com/jjh42/mock)
 
 # reversed to codes
 
+```elixir
+  test "unit test for reversed to codes" do
+    assert :"1" == LearnExunit.to_to_atom(build_params_for_func("1"))
+    assert :a == LearnExunit.to_to_atom(build_params_for_func("a"))
+
+    assert :"1" == LearnExunit.to_atom("1")
+    assert :a == LearnExunit.to_atom("a")
+  end
+```
+
 # coverage
+
+[Elixir coverage library](https://github.com/parroty/excoveralls)
 
 # treat test cases code seriously
